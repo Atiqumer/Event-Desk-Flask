@@ -1,0 +1,192 @@
+{% extends "base.html" %} {% block title %} - Create Event{% endblock %} {%
+block content %}
+<div class="create-event-container py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="card shadow-lg border-0 rounded-3">
+          <div class="card-header text-white py-3">
+            <h2 class="mb-0 text-center">Create Your Event</h2>
+          </div>
+          <div class="card-body p-4">
+            <form method="post" enctype="multipart/form-data">
+              {{ form.hidden_tag() }}
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Event Name</label>
+                    {{ form.event_name(class="form-control", placeholder="Event Name", id="event_name") }}
+                    {% if form.event_name.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.event_name.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Artist/Organizer</label>
+                    {{ form.artist_name(class="form-control",
+                    placeholder="Artist/Organizer", id="artist_name") }}
+                    {% if form.artist_name.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.artist_name.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Status</label>
+                    {{ form.status(class="form-select") }} {% if
+                    form.status.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.status.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Genre</label>
+                    {{ form.genre(class="form-select") }} {% if
+                    form.genre.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.genre.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Date</label>
+                    {{ form.date(class="form-control", type="date") }} {% if
+                    form.date.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.date.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Time</label>
+                  <div class="form-group mb-3">
+                    {{ form.time(class="form-control", type="Time",
+                    id="time") }}
+                    {% if form.time.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.time.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Location</label>
+                    {{ form.location(class="form-control",
+                    placeholder="Event Location", id="location") }}
+                    {% if form.location.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.location.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Event Description</label>
+                    {{ form.description(class="form-control", rows="5",
+                    placeholder="Describe your event...") }} {% if
+                    form.description.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.description.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Ticket Price</label>
+                    {{ form.price(class="form-control", type="Price",
+                    id="price") }}
+                    
+                    {% if form.price.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.price.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Number of Tickets</label>
+                    {{ form.num_tickets(class="form-control",
+                    type="Number of Tickets", id="num_tickets") }}
+                    {% if form.num_tickets.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.num_tickets.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group mb-4">
+                    <label class="form-label">Event Image</label>
+                    {{ form.image(class="form-control") }}
+                    <small class="text-muted"
+                      >Allowed formats: PNG, JPG, JPEG</small
+                    >
+                    {% if form.image.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.image.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Create Event
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>My Bookings</h1>
+        <p>View and Manage all your Event Bookings in one place.</p>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('event.create') }}" class="btn btn-primary">Create New Event</a>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login to Book</a>
+        {% endif %}
+      </div>
+      <div class="hero-image">
+        <img src="{{ url_for('static', filename='img/pablo-heimplatz-ZODcBkEohk8-unsplash.jpg') }}" alt="Event Booking" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bookings Section -->
+<section class="container" style="padding: 60px 0">
+  <div class="section-title">
+    <h2>Your Bookings</h2>
+    <p>All your upcoming and past event bookings</p>
+  </div>
+
+  <!-- Upcoming Bookings -->
+  <div class="row">
+    <div class="col">
+      <h3 class="section-subtitle">Upcoming Events</h3>
+    </div>
+  </div>
+
+  {% if bookings %}
+  <div class="events-grid">
+    {% for booking in bookings %}
+    <div class="event-card">
+      <div class="event-image">
+        <img src="{{ url_for('static', filename=booking.event.image) }}" alt="{{ booking.event.event_name }}" />
+        <div class="event-status {{ booking.event.status.lower() }}">{{ booking.event.status }}</div>
+      </div>
+      <div class="event-content">
+        <h3 class="event-title">{{ booking.event.event_name }}</h3>
+        <div class="event-info">
+          <div class="event-info-item"><i class="fas fa-user"></i> {{ booking.event.artist_name }}</div>
+          <div class="event-info-item"><i class="fas fa-calendar"></i> {{ booking.event.date.strftime('%d %b %Y') }}</div>
+          <div class="event-info-item"><i class="fas fa-clock"></i> {{ booking.event.time }}</div>
+          <div class="event-info-item"><i class="fas fa-map-marker-alt"></i> {{ booking.event.location }}</div>
+        </div>
+        <div class="booking-details" style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between;"><span><strong>Booking ID:</strong></span> <span>#{{ booking.id }}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span><strong>Date of Booking:</strong></span> <span>{{ booking.booking_date.strftime('%d/%m/%Y') }}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span><strong>Tickets:</strong></span> <span>{{ booking.num_tickets }}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span><strong>Total Price:</strong></span> <span>${{ booking.event.price * booking.num_tickets }}</span></div>
+        </div>
+      </div>
+      <div class="event-footer" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <span class="event-price">${{ booking.event.price }} per ticket</span>
+        <div>
+          <a href="{{ url_for('event.show', id=booking.event.id) }}" class="btn btn-outline-primary">Event Details</a>
+          <a href="{{ url_for('event.ticket_qr', booking_id=booking.id) }}" class="btn btn-outline-success">View Ticket (QR)</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">No upcoming bookings found.</p>
+  {% endif %}
+
+  <!-- Past Bookings -->
+  <div class="row mt-5">
+    <div class="col">
+      <h3 class="section-subtitle">Past Events</h3>
+    </div>
+  </div>
+
+  {% if past_bookings %}
+  <div class="events-grid">
+    {% for booking in past_bookings %}
+    <div class="event-card">
+      <div class="event-image">
+        <img src="{{ url_for('static', filename=booking.event.image) }}" alt="{{ booking.event.event_name }}" />
+        <div class="event-status {{ booking.event.status.lower() }}">{{ booking.event.status }}</div>
+      </div>
+      <div class="event-content">
+        <h3 class="event-title">{{ booking.event.event_name }}</h3>
+        <div class="event-info">
+          <div class="event-info-item"><i class="fas fa-user"></i> {{ booking.event.artist_name }}</div>
+          <div class="event-info-item"><i class="fas fa-calendar"></i> {{ booking.event.date.strftime('%d %b %Y') }}</div>
+          <div class="event-info-item"><i class="fas fa-clock"></i> {{ booking.event.time }}</div>
+          <div class="event-info-item"><i class="fas fa-map-marker-alt"></i> {{ booking.event.location }}</div>
+        </div>
+        <div class="booking-details" style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between;"><span><strong>Booking ID:</strong></span> <span>#{{ booking.id }}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span><strong>Date of Booking:</strong></span> <span>{{ booking.booking_date.strftime('%d/%m/%Y') }}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span><strong>Tickets:</strong></span> <span>{{ booking.num_tickets }}</span></div>
+          <div style="display: flex; justify-content: space-between;"><span><strong>Total Price:</strong></span> <span>${{ booking.event.price * booking.num_tickets }}</span></div>
+        </div>
+      </div>
+      <div class="event-footer">
+        <span class="event-price">${{ booking.event.price }} per ticket</span>
+        <a href="{{ url_for('event.show', id=booking.event.id) }}" class="btn btn-outline-primary">Event Details</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">No past bookings found.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% block title %} {% if heading == "Login" %} Login |
+EventStar {% else %} Register | EventStar {% endif %} {% endblock %} {% block
+content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="form-container">
+          <h2 class="form-title">{{heading}}</h2>
+
+          <form method="POST">
+            {{ form.csrf_token }} {% if heading == "Register" %}
+            <div class="mb-3">
+              {{ form.user_name.label(class="form-label") }} {{
+              form.user_name(class="form-control", placeholder="Enter your username") }} {% if form.user_name.errors %}
+              <div class="text-danger">
+                {% for error in form.user_name.errors %} {{ error }} {% endfor
+                %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              {{ form.email_id.label(class="form-label") }} {{
+              form.email_id(class="form-control", placeholder="Enter your email") }} {% if form.email_id.errors %}
+              <div class="text-danger">
+                {% for error in form.email_id.errors %} {{ error }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              {{ form.contact.label(class="form-label") }} {{
+              form.contact(class="form-control", placeholder="Enter your contact number") }} {% if form.contact.errors %}
+              <div class="text-danger">
+                {% for error in form.contact.errors %} {{ error }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              {{ form.address.label(class="form-label") }} {{
+              form.address(class="form-control", placeholder="Enter your address") }} {% if form.address.errors %}
+              <div class="text-danger">
+                {% for error in form.address.errors %} {{ error }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              {{ form.password.label(class="form-label") }} {{
+              form.password(class="form-control", placeholder="Enter your password") }} {% if form.password.errors %}
+              <div class="text-danger">
+                {% for error in form.password.errors %} {{ error }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              {{ form.confirm.label(class="form-label") }} {{
+              form.confirm(class="form-control", placeholder="Confirm your password") }} {% if form.confirm.errors %}
+              <div class="text-danger">
+                {% for error in form.confirm.errors %} {{ error }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% else %}
+            <div class="mb-3">
+              {{ form.user_name.label(class="form-label") }} {{
+              form.user_name(class="form-control", placeholder="Enter your username") }} {% if form.user_name.errors %}
+              <div class="text-danger">
+                {% for error in form.user_name.errors %} {{ error }} {% endfor
+                %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              {{ form.password.label(class="form-label") }} {{
+              form.password(class="form-control", placeholder="Enter your password") }} {% if form.password.errors %}
+              <div class="text-danger">
+                {% for error in form.password.errors %} {{ error }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                {% if heading == "Login" %} Login {% else %} Register {% endif
+                %}
+              </button>
+            </div>
+          </form>
+
+          <div class="mt-4 text-center">
+            {% if heading == "Login" %}
+            <p>
+              Don't have an account?
+              <a href="{{ url_for('auth.register') }}" class="text-primary"
+                >Register here</a
+              >
+            </p>
+            {% else %}
+            <p>
+              Already have an account?
+              <a href="{{ url_for('auth.login') }}" class="text-primary"
+                >Login here</a
+              >
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

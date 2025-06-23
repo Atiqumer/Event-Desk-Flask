@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="mb-4 bg-body-secondary rounded-3">
+  <div class="jumbotronback container-fluid p-5">
+    <h1 class="display-5 fw-bold my-5">
+      Easy to Buy & Sell Your <span class="text-warning">Event Ticket</span>
+    </h1>
+    <p class="fs-4 my-5">
+      Get tickets to events and concerts you love, or list your own for sale.
+    </p>
+    <a class="btn btn-warning btn-lg" href="#browse-events">
+      Find Your Events
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- How It Works Section -->
+<section class="how-it-works py-5">
+  <div class="container text-center">
+    <h2 class="mb-5">How It Works</h2>
+    <div class="row">
+      {% set steps = [
+        ("Go Event Page", "Browse our events and find the perfect one for you"),
+        ("Choose Your Event", "Select your event and the number of tickets you want"),
+        ("Complete Payment", "Secure checkout and get instant access to your tickets")
+      ] %}
+      {% for title, desc in steps %}
+      <div class="col-md-4 mb-4">
+        <div class="step-card p-4 border rounded h-100 shadow-sm">
+          <h4 class="mb-3">{{ loop.index }}. {{ title }}</h4>
+          <p class="text-muted">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Newest Events -->
+<section class="container my-5">
+  <h2 class="mb-4">Newest Events</h2>
+  <div class="row">
+    {% for event in events_newest %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <img
+          src="{{ url_for('static', filename='img/events/' + event.image.split('/')[-1]) }}"
+          alt="{{ event.event_name }}"
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <span class="badge bg-success mb-2">{{ event.status }}</span>
+          <h5 class="card-title">{{ event.artist_name }}</h5>
+          <h6 class="card-subtitle mb-2">
+            <a href="{{ url_for('event.show', id=event.id) }}" class="text-decoration-none">
+              {{ event.event_name }}
+            </a>
+          </h6>
+          <p class="mb-1"><strong>Location:</strong> {{ event.location }}</p>
+          <p><strong>Date:</strong> {{ event.date.strftime('%b %d, %Y') }}</p>
+          <a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-warning mt-3 w-100">
+            View Details
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="mb-5">Our Core <span class="text-warning">Features</span></h2>
+    <div class="row">
+      {% set features = [
+        ("fa-shopping-cart", "Easy to Purchase", "Find perfect tickets with our simple booking system."),
+        ("fa-bolt", "Instant Ticket Delivery", "Receive your tickets instantly after purchase."),
+        ("fa-lock", "Secure Payments", "Your payment information is always secure with us.")
+      ] %}
+      {% for icon, title, desc in features %}
+      <div class="col-md-4 mb-4">
+        <div class="feature-card p-4 bg-white border rounded shadow-sm h-100">
+          <div class="feature-icon text-warning mb-3">
+            <i class="fa {{ icon }} fa-2x"></i>
+          </div>
+          <h4>{{ title }}</h4>
+          <p class="text-muted">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Search Form -->
+<div class="search-section py-4 text-white" id="browse-events">
+  <div class="container">
+    <h3 class="text-center mb-4">Find Your Perfect Event</h3>
+    <form action="{{ url_for('main.search') }}" method="get">
+      <div class="row justify-content-center">
+        <div class="col-md-6 mb-3">
+          <label for="search-artist">Search by Artist</label>
+          <input
+            type="text"
+            class="form-control mt-2"
+            id="search-artist"
+            name="search-artist"
+            placeholder="Enter artist name"
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="search-category">Search by Category</label>
+          <select
+            class="form-control mt-2"
+            id="search-category"
+            name="search-category"
+          >
+            <option value="">All Categories</option>
+            <option value="Country">Country</option>
+            <option value="Electronic">Electronic</option>
+            <option value="Funk">Funk</option>
+            <option value="Hip Hop">Hip Hop</option>
+            <option value="Jazz">Jazz</option>
+            <option value="House">House</option>
+            <option value="Pop">Pop</option>
+            <option value="Rap">Rap</option>
+            <option value="Rock">Rock</option>
+          </select>
+        </div>
+        <div
+          class="col-md-2 d-flex align-items-end"
+          style="margin-bottom: 2rem"
+        >
+          <button type="submit" class="btn btn-warning w-100">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- All Events Section -->
+<section class="container my-5">
+  <h2 class="mb-4">All Events</h2>
+  {% for event in events %}
+  <div class="row align-items-center mb-4 border rounded shadow-sm p-3">
+    <div class="col-md-5">
+      <img
+        class="img-fluid rounded"
+        src="{{ url_for('static', filename='img/events/' + event.image.split('/')[-1]) }}"
+        alt="{{ event.event_name }}"
+      />
+    </div>
+    <div class="col-md-7">
+      <div class="ms-md-4">
+        <p class="badge bg-success">{{ event.status }}</p>
+        <h4 class="mt-2">{{ event.artist_name }}</h4>
+        <h5>{{ event.event_name }}</h5>
+        <p>{{ event.date.strftime('%b %d, %Y') }}, {{ event.genre }}</p>
+        <a
+          class="btn btn-warning"
+          href="{{ url_for('event.show', id=event.id) }}"
+        >View Details</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

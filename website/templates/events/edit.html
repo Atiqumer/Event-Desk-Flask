@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block title %} - Edit Event{% endblock %}
+
+{% block content %}
+<div class="edit-event-container py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="card shadow-lg border-0 rounded-3">
+          <div class="card-header text-white py-3">
+            <h2 class="mb-0">Edit Event</h2>
+            <p class="mb-0 opacity-75">Edit Your Event details below</p>
+          </div>
+          <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+              {{ form.csrf_token }}
+              <div class="row g-3">
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.event_name.label(class="form-label fw-bold") }}
+                    {{ form.event_name(class="form-control rounded-pill", placeholder="Event name") }}
+                    {% if form.event_name.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.event_name.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.artist_name.label(class="form-label fw-bold") }}
+                    {{ form.artist_name(class="form-control rounded-pill", placeholder="Artist name") }}
+                    {% if form.artist_name.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.artist_name.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.status.label(class="form-label fw-bold") }}
+                    {{ form.status(class="form-select rounded-pill") }}
+                    {% if form.status.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.status.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.genre.label(class="form-label fw-bold") }}
+                    {{ form.genre(class="form-select rounded-pill") }}
+                    {% if form.genre.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.genre.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.date.label(class="form-label fw-bold") }}
+                    {{ form.date(class="form-control rounded-pill", type="date") }}
+                    {% if form.date.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.date.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.time.label(class="form-label fw-bold") }}
+                    {{ form.time(class="form-control rounded-pill", placeholder="e.g. 7:30 PM") }}
+                    {% if form.time.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.time.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.price.label(class="form-label fw-bold") }}
+                    {{ form.price(class="form-control rounded-pill", placeholder="Price per ticket") }}
+                    {% if form.price.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.price.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    {{ form.num_tickets.label(class="form-label fw-bold") }}
+                    {{ form.num_tickets(class="form-control rounded-pill", placeholder="Number of available tickets") }}
+                    {% if form.num_tickets.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.num_tickets.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                      {{ form.image.label(class="form-label fw-bold mb-0 me-2") }}
+                      <span class="badge bg-light text-dark">PNG, JPG, JPEG only</span>
+                    </div>
+                    
+                    {# Show current image if it exists #}
+                    {% if event.image %}
+  <div class="mb-3">
+    <img src="{{ url_for('static', filename=event.image) }}"
+         alt="Current Event Image"
+         class="img-fluid rounded"
+         style="max-height: 200px;">
+  </div>
+{% endif %}
+
+                    
+                    {{ form.image(class="form-control") }}
+                    
+                    {% if form.image.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.image.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    {{ form.description.label(class="form-label fw-bold") }}
+                    {{ form.description(class="form-control", rows="5", placeholder="Provide a detailed description of the event") }}
+                    {% if form.description.errors %}
+                      <div class="text-danger small mt-1">
+                        {% for error in form.description.errors %}
+                          <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('event.show', id=id) }}" class="btn btn-outline-secondary rounded-pill px-4">
+                  <i class="fas fa-arrow-left me-2"></i> Back
+                </a>
+                {{ form.submit(class="btn btn-primary rounded-pill px-5", value="Update Event") }}
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
